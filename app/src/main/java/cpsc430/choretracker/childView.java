@@ -21,9 +21,9 @@ public class childView extends AppCompatActivity {
 
         //Setting up spinners
         choreList.add("Current Chores: ");
-        addToListChore();
+        addToList(choreList, 1);
         rewardList.add("Current Rewards:");
-        addToListReward();
+        addToList(rewardList, 2);
 
         //Show Stars
         TextView totalStars = findViewById(R.id.totalStars);
@@ -31,18 +31,17 @@ public class childView extends AppCompatActivity {
     }
 
     //Updates visual of dropdown for chores
-    public void addToListChore(){
-        Spinner dropdown = findViewById(R.id.spinnerChoreList);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, choreList);
+    public void addToList(List L, int choice){
+        Spinner dropdown;
+        if(choice == 1){
+            dropdown = findViewById(R.id.spinnerChoreList);
+        }else{
+            dropdown = findViewById(R.id.spinnerRewardValue);
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, L);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dropdown.setAdapter(dataAdapter);
     }
 
-    //Updates visual of dropdown for rewards
-    public void addToListReward(){
-        Spinner dropdown = findViewById(R.id.spinnerRewardValue);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, rewardList);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        dropdown.setAdapter(dataAdapter);
-    }
 }
