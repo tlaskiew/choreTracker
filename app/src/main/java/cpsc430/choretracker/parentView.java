@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class parentView extends AppCompatActivity {
     public final String EXTRA_MESSAGE = "MESSAGE";
     private List<String> starList = new ArrayList<>();
     private List<String> choreList = new ArrayList<>();
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

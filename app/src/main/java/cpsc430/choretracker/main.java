@@ -6,16 +6,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class main extends AppCompatActivity {
     public final String EXTRA_MESSAGE = "MESSAGE";
     public final String user = "";
+
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 
     //Go-to createAccount view
@@ -29,6 +35,9 @@ public class main extends AppCompatActivity {
 
     //Go-to child/parent view
     public void login(View v){
+        //Connecting to database and getting main reference
+        DatabaseReference myRef= database.getReference();
+
         //Get Password
         EditText password = findViewById(R.id.password);
         String pass = password.getText().toString();
