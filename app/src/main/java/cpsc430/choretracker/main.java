@@ -36,7 +36,7 @@ public class main extends AppCompatActivity {
     //Go-to child/parent view
     public void login(View v){
         //Connecting to database and getting main reference
-        DatabaseReference myRef= database.getReference();
+        DatabaseReference myRef= database.getReference().child("Users");
 
         //Get Password
         EditText password = findViewById(R.id.password);
