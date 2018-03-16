@@ -106,4 +106,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/buttonLogout"
+        android:layout_width="247dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:onClick="logout"
+        android:text="Logout"
+        android:textColor="@android:color/white"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonView"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@color/ic_launcher_background"
+        android:onClick="view"
+        android:text="Go to View"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/buttonLogout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>
