@@ -80,6 +80,7 @@ public class DisplayCreateAccount extends AppCompatActivity {
                                 //Go-To Parent View
                                 Intent intent = new Intent(v.getContext(), parentView.class);
                                 intent.putExtra("user", user);
+                                addLocal(user, userEmail, chosenRole);
                                 startActivity(intent);
                             }else if(chosenRole.equals("Child") && !error.getText().toString().contains("Account Already Exists!")){
                                 //Go-To Child View
