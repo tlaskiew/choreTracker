@@ -132,6 +132,27 @@ public class DisplayCreateAccount extends AppCompatActivity {
         });
     }
 
+    @Override
+    //If user tries to go back after creating an account it will direct them to home page
+    protected void onStart() {
+        super.onStart();
+        //Search for already logged in user
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        user = preferences.getString("Username", "");
+        email = preferences.getString("Email", "").replace(".", ",");
+        role = preferences.getString("Role", "");
+
+        //User logged in currently is a parent
+        if(!user.equals("") && !email.equals("") && !role.equals("") && role.equals("Parent")){
+            Intent intent = new Intent(this, main.class);
+            startActivity(intent);
+        //User logged in currently a child
+        }else if(!user.equals("") && !email.equals("") && !role.equals("") && role.equals("Child")){
+            Intent intent = new Intent(this, main.class);
+            startActivity(intent);
+        }
+    }
+
     //Adds a session for the user who logged in
     public void addLocal(String user, String email, String role){
         //Add user to signed in
