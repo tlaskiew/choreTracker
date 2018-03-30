@@ -78,7 +78,7 @@ public class main extends AppCompatActivity {
         createAcc.setVisibility(View.INVISIBLE);
     }
 
-    //Sends user to appropriate page
+    //Sends user to appropriate page if signed in
     public void view(View v){
         if(role.equals("Child")) {
             Intent intent = new Intent(this, childView.class);
@@ -105,13 +105,13 @@ public class main extends AppCompatActivity {
         //Connecting to database and getting main reference
         DatabaseReference myRef= database.getReference().child("Users");
 
+        //Get Username
+        EditText editText = findViewById(R.id.username);
+        String username = editText.getText().toString();
+
         //Get Password
         EditText password = findViewById(R.id.password);
         String pass = password.getText().toString();
-
-        //get Username
-        EditText editText = findViewById(R.id.username);
-        String username = editText.getText().toString();
 
         //Replace with users eventually
         if(username.equals("Parent") && pass.equals("Password")){
@@ -128,5 +128,16 @@ public class main extends AppCompatActivity {
             password.setText("");
             password.setHint("Invalid Credentials");
         }
+    }
+
+    //Adds a session for the user who logged in
+    public void addLocal(String user, String email, String role){
+        //Add user to signed in
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("Username", user);
+        editor.putString("Email", email);
+        editor.putString("Role", role);
+        editor.apply();
     }
 }

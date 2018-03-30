@@ -27,11 +27,29 @@ import java.util.Map;
 public class DisplayCreateAccount extends AppCompatActivity {
     private List<String> list = new ArrayList<>();
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private String user;
+    private String email;
+    private String role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_create_account);
+
+        //Search for already logged in user
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        user = preferences.getString("Username", "");
+        email = preferences.getString("Email", "").replace(".", ",");
+        role = preferences.getString("Role", "");
+
+        //Catch if user already logged in and if so send to view
+        if(!user.equals("") && !email.equals("") && !role.equals("") && role.equals("Parent")){
+            Intent intent = new Intent(this, parentView.class);
+            startActivity(intent);
+        }else if(!user.equals("") && !email.equals("") && !role.equals("") && role.equals("Child")){
+            Intent intent = new Intent(this, childView.class);;
+            startActivity(intent);
+        }
 
         //Fill role spinner
         list.add("Choose Role:");
@@ -44,25 +62,32 @@ public class DisplayCreateAccount extends AppCompatActivity {
             public void onClick(final View v) {
                 DatabaseReference myRef = database.getReference();
 
-                //Collect all data from user
                 EditText email = findViewById(R.id.textEmail);
-                final String userEmail = EncodeString(email.getText().toString());
-                EditText username = findViewById(R.id.textUsername);
-                final String user = username.getText().toString();
-                EditText pass = findViewById(R.id.textPassword);
-                final String password = pass.getText().toString();
-                Spinner role = findViewById(R.id.spinnerChooseRole);
-                final String chosenRole = role.getSelectedItem().toString();
+                String userEmail = EncodeString(email.getText().toString());
 
                 myRef = myRef.child("Users").child(userEmail);
 
                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    //Collect all data from user
+                    EditText email = findViewById(R.id.textEmail);
+                    String userEmail = EncodeString(email.getText().toString());
+                    EditText username = findViewById(R.id.textUsername);
+                    String user = username.getText().toString();
+                    EditText pass = findViewById(R.id.textPassword);
+                    String password = pass.getText().toString();
+                    Spinner role = findViewById(R.id.spinnerChooseRole);
+                    String chosenRole = role.getSelectedItem().toString();
+
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.hasChild(user)){
+                        if (dataSnapshot.hasChild(user)) {
                             //Catch if an account with the username already exists
                             TextView error = findViewById(R.id.createError);
                             error.setText("Account Already Exists!");
+                        }else if(!email.getText().toString().contains("@") || !email.getText().toString().contains(".")){
+                            //Check if email contains an '@' symbol and a '.' symbol
+                            TextView error = findViewById(R.id.createError);
+                            error.setText("Invalid Email!");
                         }else{
                             Map<String, String> userData = new HashMap<>();
                             userData.put("Username", user);
