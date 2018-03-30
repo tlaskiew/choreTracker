@@ -77,44 +77,51 @@ public class DisplayCreateAccount extends AppCompatActivity {
                     String password = pass.getText().toString();
                     Spinner role = findViewById(R.id.spinnerChooseRole);
                     String chosenRole = role.getSelectedItem().toString();
+                    TextView error = findViewById(R.id.createError);
 
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.hasChild(user)) {
+                        if(email.getText().toString().equals("")){
+                            error.setText("Enter an Email!");
+                        }else if(username.getText().toString().equals("")) {
+                            error.setText("Enter a Username!");
+                        }else if(pass.getText().toString().equals("")) {
+                            error.setText("Enter a Password!");
+                        }else if(role.getSelectedItem().toString().equals("Choose Role:")){
+                            error.setText("Select a Role!");
+                        }else if (dataSnapshot.hasChild(user)) {
                             //Catch if an account with the username already exists
-                            TextView error = findViewById(R.id.createError);
                             error.setText("Account Already Exists!");
                         }else if(!email.getText().toString().contains("@") || !email.getText().toString().contains(".")){
                             //Check if email contains an '@' symbol and a '.' symbol
-                            TextView error = findViewById(R.id.createError);
                             error.setText("Invalid Email!");
                         }else{
-                            Map<String, String> userData = new HashMap<>();
-                            userData.put("Username", user);
-                            userData.put("Email", userEmail);
-                            userData.put("Password", password);
-                            userData.put("Role", chosenRole);
-                            if (chosenRole.equals("Child")) {
-                                userData.put("Stars", "0");
-                            }
-                            //Add data to database
-                            dataSnapshot.getRef().child(user).setValue(userData);
+                                Map<String, String> userData = new HashMap<>();
+                                userData.put("Username", user);
+                                userData.put("Email", userEmail);
+                                userData.put("Password", password);
+                                userData.put("Role", chosenRole);
+                                if (chosenRole.equals("Child")) {
+                                    userData.put("Stars", "0");
+                                }
+                                //Add data to database
+                                dataSnapshot.getRef().child(user).setValue(userData);
 
-                            TextView error = findViewById(R.id.createError);
-                            if(chosenRole.equals("Parent") && !error.getText().toString().contains("Account Already Exists!")){
-                                //Go-To Parent View
-                                Intent intent = new Intent(v.getContext(), parentView.class);
-                                intent.putExtra("user", user);
-                                addLocal(user, userEmail, chosenRole);
-                                startActivity(intent);
-                            }else if(chosenRole.equals("Child") && !error.getText().toString().contains("Account Already Exists!")){
-                                //Go-To Child View
-                                Intent intent = new Intent(v.getContext(), childView.class);
-                                intent.putExtra("user", user);
-                                addLocal(user, userEmail, chosenRole);
-                                startActivity(intent);
+                                TextView error = findViewById(R.id.createError);
+                                if(chosenRole.equals("Parent") && !error.getText().toString().contains("Account Already Exists!")){
+                                    //Go-To Parent View
+                                    Intent intent = new Intent(v.getContext(), parentView.class);
+                                    intent.putExtra("user", user);
+                                    addLocal(user, userEmail, chosenRole);
+                                    startActivity(intent);
+                                }else if(chosenRole.equals("Child") && !error.getText().toString().contains("Account Already Exists!")){
+                                    //Go-To Child View
+                                    Intent intent = new Intent(v.getContext(), childView.class);
+                                    intent.putExtra("user", user);
+                                    addLocal(user, userEmail, chosenRole);
+                                    startActivity(intent);
+                                }
                             }
-                        }
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
