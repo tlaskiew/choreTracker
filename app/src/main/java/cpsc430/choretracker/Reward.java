@@ -2,13 +2,17 @@ package cpsc430.choretracker;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Reward extends AppCompatActivity {
     private List<String> rewardList = new ArrayList<>();
@@ -30,6 +34,30 @@ public class Reward extends AppCompatActivity {
         }
         addToList(starList, 2);
 
+    }
+
+    // Add a reward
+    public void addReward(View v) {
+        // Collect user data
+        EditText input = findViewById(R.id.choreText);
+        String rewardName = input.getText().toString();
+
+        Spinner rewardValueSpinner = findViewById(R.id.spinnerStarValue);
+        String rewardValue = rewardValueSpinner.getSelectedItem().toString();
+
+        // Check user input
+        if(rewardName.equals("")) {
+            // Reward name was left blank
+
+        } else if(rewardValue.equals("Cost of Reward:")) {
+            // Reward value was left blank
+
+        } else {
+            // All required input was given
+            Map<String, String> userData = new HashMap<>();
+            userData.put("rewardName", rewardName);
+            userData.put("rewardValue", rewardValue);
+        }
     }
 
     //Updates visual of dropdown

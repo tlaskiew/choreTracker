@@ -5,12 +5,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class parentView extends AppCompatActivity {
     public final String user = "";
@@ -48,6 +53,33 @@ public class parentView extends AppCompatActivity {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, L);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dropdown.setAdapter(dataAdapter);
+    }
+
+    public void addChore(View v) {
+        // Collect user data
+        EditText input = findViewById(R.id.choreText);
+        String choreName = input.getText().toString();
+
+        Spinner starValueSpinner = findViewById(R.id.spinnerStarValue);
+        String starValue = starValueSpinner.getSelectedItem().toString();
+
+        TextView error = findViewById(R.id.addChoreError);
+
+        // Check user input
+        if(choreName.equals("")) {
+            // Chore name was left blank
+            error.setText("Please enter a chore name.");
+        } else if (starValue.equals("Chore Star Value:")) {
+            // Star value was left blank
+            error.setText("Please select a star value.");
+        } else {
+            // All required input is given
+
+            // Add the chore to the database
+            Map<String, String> userData = new HashMap<>();
+            userData.put("choreName", choreName);
+            userData.put("starValue", starValue);
+        }
     }
 
     //Go-to rewards page

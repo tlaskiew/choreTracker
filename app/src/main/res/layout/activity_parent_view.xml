@@ -26,13 +26,14 @@
         app:layout_constraintVertical_bias="0.017" />
 
     <Button
-        android:id="@+id/choreText"
+        android:id="@+id/choreButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="140dp"
         android:backgroundTint="@color/ic_launcher_background"
+        android:onClick="addChore"
         android:text="Add Chore"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
