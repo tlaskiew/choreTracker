@@ -5,10 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -18,16 +19,25 @@ import java.util.List;
 import java.util.Map;
 
 public class parentView extends AppCompatActivity {
-    public final String user = "";
-    public final String EXTRA_MESSAGE = "MESSAGE";
     private List<String> starList = new ArrayList<>();
     private List<String> choreList = new ArrayList<>();
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private String user;
+    private String email;
+    private String role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_view);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        user = preferences.getString("Username", "");
+        email = preferences.getString("Email", "").replace(".", ",");
+        role = preferences.getString("Role", "");
+
+        TextView accountName = findViewById(R.id.accountName);
+        accountName.setText(user);
 
         //Set title for chore list spinner
         choreList.add("Current Chores:");
@@ -85,7 +95,6 @@ public class parentView extends AppCompatActivity {
     //Go-to rewards page
     public void rewards(View v){
         Intent intent = new Intent(this, Reward.class);
-        intent.putExtra(user, EXTRA_MESSAGE);
         startActivity(intent);
     }
 

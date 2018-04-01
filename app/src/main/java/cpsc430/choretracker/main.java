@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,11 +31,7 @@ public class main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Search for already logged in user
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        user = preferences.getString("Username", "");
-        email = preferences.getString("Email", "").replace(".", ",");
-        role = preferences.getString("Role", "");
+        getLocal();
 
         //User logged in currently is a parent
         if(!user.equals("") && !email.equals("") && !role.equals("") && role.equals("Parent")){
@@ -48,11 +45,8 @@ public class main extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        //Search for already logged in user
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        user = preferences.getString("Username", "");
-        email = preferences.getString("Email", "").replace(".", ",");
-        role = preferences.getString("Role", "");
+
+        getLocal();
 
         //User logged in currently is a parent
         if(!user.equals("") && !email.equals("") && !role.equals("") && role.equals("Parent")){
@@ -81,6 +75,8 @@ public class main extends AppCompatActivity {
         login.setVisibility(View.VISIBLE);
         Button createAcc = findViewById(R.id.buttonCreateAccount);
         createAcc.setVisibility(View.VISIBLE);
+        TextView accountName = findViewById(R.id.accountName);
+        accountName.setVisibility(View.INVISIBLE);
     }
 
     //Logged in, hide unneeded items
@@ -97,6 +93,9 @@ public class main extends AppCompatActivity {
         login.setVisibility(View.INVISIBLE);
         Button createAcc = findViewById(R.id.buttonCreateAccount);
         createAcc.setVisibility(View.INVISIBLE);
+        TextView accountName = findViewById(R.id.accountName);
+        accountName.setVisibility(View.VISIBLE);
+        accountName.setText(user);
     }
 
     //Sends user to appropriate page if signed in
@@ -128,7 +127,7 @@ public class main extends AppCompatActivity {
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             EditText username = findViewById(R.id.username);
-            String user = username.getText().toString();
+            String user = username.getText().toString().replace(".", ",");
             EditText password = findViewById(R.id.password);
             String pass = password.getText().toString();
             int done = 0;
@@ -196,11 +195,9 @@ public class main extends AppCompatActivity {
     void userView(){
         if(role.equals("Child")) {
             Intent intent = new Intent(this, childView.class);
-            intent.putExtra("user", user);
             startActivity(intent);
         }else if(role.equals("Parent")){
             Intent intent = new Intent(this, parentView.class);
-            intent.putExtra("user", user);
             startActivity(intent);
         }
     }
@@ -214,5 +211,13 @@ public class main extends AppCompatActivity {
         editor.putString("Email", email);
         editor.putString("Role", role);
         editor.apply();
+    }
+
+    //Search for already logged in user
+    public void getLocal(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        user = preferences.getString("Username", "");
+        email = preferences.getString("Email", "").replace(".", ",");
+        role = preferences.getString("Role", "");
     }
 }

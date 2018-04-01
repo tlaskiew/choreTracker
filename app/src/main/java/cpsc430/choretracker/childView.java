@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -16,11 +18,22 @@ public class childView extends AppCompatActivity {
     private List<String> rewardList = new ArrayList<>();
     private int stars = 0;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private String user;
+    private String email;
+    private String role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_view);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        user = preferences.getString("Username", "");
+        email = preferences.getString("Email", "").replace(".", ",");
+        role = preferences.getString("Role", "");
+
+        TextView accountName = findViewById(R.id.accountName);
+        accountName.setText(user);
 
         //Setting up spinners
         choreList.add("Current Chores: ");
