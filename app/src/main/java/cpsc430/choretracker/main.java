@@ -165,10 +165,8 @@ public class main extends AppCompatActivity {
                                         email = cur;
                                      }
                                  }
-                                 //Adding session
+                                 //Adding session & sending to view page
                                  addLocal(user, email, role);
-                                 //Send user to view page
-                                 userView();
                              }
                          }
                      }
@@ -192,17 +190,7 @@ public class main extends AppCompatActivity {
          });
     }
 
-    void userView(){
-        if(role.equals("Child")) {
-            Intent intent = new Intent(this, childView.class);
-            startActivity(intent);
-        }else if(role.equals("Parent")){
-            Intent intent = new Intent(this, parentView.class);
-            startActivity(intent);
-        }
-    }
-
-    //Adds a session for the user who logged in
+    //Adds a session for the user who logged in and send to view
     public void addLocal(String user, String email, String role){
         //Add user to signed in
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -211,6 +199,15 @@ public class main extends AppCompatActivity {
         editor.putString("Email", email);
         editor.putString("Role", role);
         editor.apply();
+
+        //Send to appropriate page
+        if(role.equals("Child")) {
+            Intent intent = new Intent(this, childView.class);
+            startActivity(intent);
+        }else if(role.equals("Parent")){
+            Intent intent = new Intent(this, parentView.class);
+            startActivity(intent);
+        }
     }
 
     //Search for already logged in user
