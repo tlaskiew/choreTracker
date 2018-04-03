@@ -148,23 +148,9 @@ public class main extends AppCompatActivity {
                                  String role = "";
                                  String email = "";
                                  done = 2;
-                                 //Fixing email
-                                 String current = dsp.child(user).getValue().toString().replace(",com", ".com");
-                                 current.replace(",net", ".net");
-                                 //Check what role they are
-                                 if(current.contains("Role=Parent")){
-                                     role = "Parent";
-                                 }else if(current.contains("Role=Child")){
-                                     role = "Child";
-                                 }
-                                 //Search reference for email
-                                 String[] temp = current.split(",");
-                                 for(String cur : temp){
-                                     if(cur.contains("Email")){
-                                        cur = cur.replace(" Email=", "");
-                                        email = cur;
-                                     }
-                                 }
+                                 //Collecting Email and Role from account
+                                 email = dsp.child(user).child("Email").getValue().toString().replaceAll(",", ".");
+                                 role = dsp.child(user).child("Role").getValue().toString();
                                  //Adding session & sending to view page
                                  addLocal(user, email, role);
                              }
