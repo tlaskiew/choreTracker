@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
@@ -70,10 +71,13 @@ public class parentView extends AppCompatActivity {
         EditText input = findViewById(R.id.choreText);
         String choreName = input.getText().toString();
 
+        // Database ref: Where to put the data
+        DatabaseReference myRef = database.getReference().child("Users").child(email).child("Chores");
+
         Spinner starValueSpinner = findViewById(R.id.spinnerStarValue);
         String starValue = starValueSpinner.getSelectedItem().toString();
 
-        TextView error = findViewById(R.id.addChoreError);
+        TextView error = findViewById(R.id.rewardError);
 
         // Check user input
         if(choreName.equals("")) {

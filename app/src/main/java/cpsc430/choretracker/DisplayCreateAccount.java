@@ -71,7 +71,7 @@ public class DisplayCreateAccount extends AppCompatActivity {
                     //Collect all data from user
                     EditText email = findViewById(R.id.textEmail);
                     String userEmail = EncodeString(email.getText().toString());
-                    EditText username = findViewById(R.id.textUsername);
+                    EditText username = findViewById(R.id.textReward);
                     String user = username.getText().toString();
                     EditText pass = findViewById(R.id.textPassword);
                     String password = pass.getText().toString();
@@ -92,9 +92,12 @@ public class DisplayCreateAccount extends AppCompatActivity {
                         }else if (dataSnapshot.hasChild(user)) {
                             //Catch if an account with the username already exists
                             error.setText("Account Already Exists!");
-                        }else if(!email.getText().toString().contains("@") || !email.getText().toString().contains(".")){
+                        }else if(!email.getText().toString().contains("@") || !email.getText().toString().contains(".")) {
                             //Check if email contains an '@' symbol and a '.' symbol
                             error.setText("Invalid Email!");
+                        }else if(username.equals("Rewards") || username.equals("Chores")){
+                            //Don't allow create account to overwrite chores/rewards lists
+                            error.setText("Invalid Username!");
                         }else{
                                 Map<String, String> userData = new HashMap<>();
                                 userData.put("Username", user);
