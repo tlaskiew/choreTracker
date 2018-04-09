@@ -68,8 +68,10 @@ public class main extends AppCompatActivity {
         Button logout = findViewById(R.id.buttonLogout);
         logout.setVisibility(View.INVISIBLE);
         EditText username = findViewById(R.id.username);
+        username.setText("");
         username.setVisibility(View.VISIBLE);
         EditText pass = findViewById(R.id.password);
+        pass.setText("");
         pass.setVisibility(View.VISIBLE);
         Button login = findViewById(R.id.buttonLogin);
         login.setVisibility(View.VISIBLE);
