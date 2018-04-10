@@ -40,6 +40,8 @@ public class Reward extends AppCompatActivity {
 
         // Gather Session data
         getLocal();
+        TextView accountName = findViewById(R.id.accountName);
+        accountName.setText(user);
 
         // Show current list
         updateList();

@@ -98,13 +98,13 @@
 
     <Button
         android:id="@+id/buttonRedeemReward"
-        android:layout_width="245dp"
+        android:layout_width="195dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="156dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:backgroundTint="@android:color/holo_orange_dark"
-        android:text="Redeem Stars For Reward"
+        android:text="Redeem Reward"
         android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

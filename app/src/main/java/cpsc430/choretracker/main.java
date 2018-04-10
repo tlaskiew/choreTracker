@@ -69,9 +69,11 @@ public class main extends AppCompatActivity {
         logout.setVisibility(View.INVISIBLE);
         EditText username = findViewById(R.id.username);
         username.setText("");
+        username.setHint("Username");
         username.setVisibility(View.VISIBLE);
         EditText pass = findViewById(R.id.password);
         pass.setText("");
+        pass.setHint("Password");
         pass.setVisibility(View.VISIBLE);
         Button login = findViewById(R.id.buttonLogin);
         login.setVisibility(View.VISIBLE);
@@ -137,9 +139,9 @@ public class main extends AppCompatActivity {
              @Override
              public void onDataChange(DataSnapshot dataSnapshot) {
                  if(username.getText().toString().equals("")){
-                     username.setText("Enter A Username!");
+                     username.setHint("Enter a Username!");
                  }else if(password.getText().toString().equals("")){
-                     password.setText("Enter A Password!");
+                     password.setHint("Enter a Password!");
                  }else {
                      for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                          if (dsp.hasChild(user)) {
