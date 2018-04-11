@@ -36,7 +36,7 @@ public class Reward extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reward);
 
-        final Spinner dropdown = findViewById(R.id.spinnerRewardList);
+        final Spinner dropdown = findViewById(R.id.spinnerRewardValue);
 
         // Gather Session data
         getLocal();
@@ -169,7 +169,7 @@ public class Reward extends AppCompatActivity {
     public void addToList(List L, int choice){
         Spinner dropdown;
         if(choice == 1){
-            dropdown = findViewById(R.id.spinnerRewardList);
+            dropdown = findViewById(R.id.spinnerRewardValue);
         }else{
             dropdown = findViewById(R.id.spinnerRewardValue);
         }
