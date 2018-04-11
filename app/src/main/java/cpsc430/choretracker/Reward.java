@@ -127,7 +127,7 @@ public class Reward extends AppCompatActivity {
         String rewardName = input.getText().toString();
 
         //
-        TextView error = findViewById(R.id.rewardError);
+        TextView error = findViewById(R.id.choreError);
 
         // Catching symbol '$' that isn't allowed by firebase rules
         if(rewardName.contains("$")){

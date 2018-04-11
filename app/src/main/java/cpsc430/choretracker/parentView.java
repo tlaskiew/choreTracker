@@ -30,7 +30,6 @@ public class parentView extends AppCompatActivity {
     private String email;
     private String role;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +81,7 @@ public class parentView extends AppCompatActivity {
         Spinner starValueSpinner = findViewById(R.id.spinnerStarValue);
         String starValue = starValueSpinner.getSelectedItem().toString();
 
-        TextView error = findViewById(R.id.rewardError);
+        TextView error = findViewById(R.id.choreError);
 
         // Check user input
         if(choreName.equals("")) {
@@ -106,13 +105,42 @@ public class parentView extends AppCompatActivity {
             // Reset the user interface
             input.setText("");
             starValueSpinner.setSelection(0, true);
+            error.setText("");
 
         }
     }
 
     // Remove a chore from the database
     public void removeChore(View v) {
+        // Get the selected chore from UI
+        final Spinner selectChoreSpinner = findViewById(R.id.choreList);
+        String choreName = selectChoreSpinner.getSelectedItem().toString();
+        final String original = choreName;
 
+        final TextView error = findViewById(R.id.choreError);
+
+        if(choreName.equals("Current Chores:")) {
+            // No chore was selected
+            error.setText("Please select a chore");
+        } else {
+            choreName = choreName.substring(0, choreName.indexOf('('));
+            DatabaseReference myRef = database.getReference();
+            myRef.child("Users").child(email).child("Chores").child(choreName).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    dataSnapshot.getRef().removeValue();
+                    choreList.remove(original);
+                    updateList();
+                    selectChoreSpinner.setSelection(0, true);
+                    error.setText("");
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     public void updateList(){
