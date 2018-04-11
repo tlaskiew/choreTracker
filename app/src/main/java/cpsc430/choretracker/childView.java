@@ -51,6 +51,9 @@ public class childView extends AppCompatActivity {
         //Update reward list
         updateList();
 
+        //Update chore list
+        updateChoreList();
+
         //Show Stars
         final TextView totalStars = findViewById(R.id.totalStars);
         totalStars.setText(stars + "");
@@ -144,6 +147,32 @@ public class childView extends AppCompatActivity {
                         // Adding and Displaying list to user
                         rewardList.add(name + "(" + value + ")");
                         addToList(rewardList, 2);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        });
+    }
+
+    //Display Chores
+    public void updateChoreList(){
+        database.getReference().child("Users").child(email).child("Chores").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Loop through rewards in database and display current chores
+                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+                    String name = dsp.child("choreName").getValue().toString();
+                    String value = dsp.child("starValue").getValue().toString();
+
+                    // Making sure no duplicates
+                    if(!choreList.contains(name + "(" + value + ")")) {
+                        // Adding and Displaying list to user
+                        choreList.add(name + "(" + value + ")");
+                        addToList(choreList, 1);
                     }
                 }
             }
