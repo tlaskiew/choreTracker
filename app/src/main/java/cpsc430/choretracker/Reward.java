@@ -161,6 +161,7 @@ public class Reward extends AppCompatActivity {
             // Cleaning up used boxes and dropdown
             input.setText("");
             rewardValueSpinner.setSelection(0, true);
+            rewardValueSpinner.setSelection(0, true);
         }
     }
 
