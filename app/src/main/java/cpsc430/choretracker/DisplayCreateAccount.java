@@ -111,13 +111,13 @@ public class DisplayCreateAccount extends AppCompatActivity {
                                 dataSnapshot.getRef().child(user).setValue(userData);
 
                                 TextView error = findViewById(R.id.createError);
-                                if(chosenRole.equals("Parent") && !error.getText().toString().contains("Account Already Exists!")){
+                                if(chosenRole.equals("Parent")){
                                     //Go-To Parent View
                                     Intent intent = new Intent(v.getContext(), parentView.class);
                                     intent.putExtra("user", user);
                                     addLocal(user, userEmail, chosenRole);
                                     startActivity(intent);
-                                }else if(chosenRole.equals("Child") && !error.getText().toString().contains("Account Already Exists!")){
+                                }else if(chosenRole.equals("Child")){
                                     //Go-To Child View
                                     Intent intent = new Intent(v.getContext(), childView.class);
                                     intent.putExtra("user", user);
