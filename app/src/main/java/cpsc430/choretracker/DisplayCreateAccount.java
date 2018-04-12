@@ -98,7 +98,9 @@ public class DisplayCreateAccount extends AppCompatActivity {
                         }else if(username.equals("Rewards") || username.equals("Chores")){
                             //Don't allow create account to overwrite chores/rewards lists
                             error.setText("Invalid Username!");
-                        }else{
+                        } else if(username.getText().toString().length() > 9) {
+                            error.setText("Username cannot be more than 9 characters.");
+                        }else {
                                 Map<String, String> userData = new HashMap<>();
                                 userData.put("Username", user);
                                 userData.put("Email", userEmail);

@@ -43,7 +43,7 @@ public class childView extends AppCompatActivity {
         accountName.setText(user);
 
         //Setting up spinners
-        choreList.add("Current Chores: ");
+        choreList.add("Current Chores:");
         addToList(choreList, 1);
         rewardList.add("Current Rewards:");
         addToList(rewardList, 2);
@@ -126,6 +126,46 @@ public class childView extends AppCompatActivity {
                 }
             }
         });
+
+        // Mark a chore as completed
+        final Spinner choreSpinner = findViewById(R.id.spinnerChoreList);
+        Button claimChore = findViewById(R.id.buttonClaimChore);
+        claimChore.setOnClickListener( new View.OnClickListener() {
+            public void onClick(final View v) {
+                final String original = choreSpinner.getSelectedItem().toString();
+                final TextView error = findViewById(R.id.error);
+
+                if(original.equals("Current Chores:")) {
+                    error.setText("Please select a chore.");
+                } else {
+                    final int choreStars = Integer.parseInt(original.substring(original.indexOf('(') + 1, original.indexOf(')')));
+                    String chore = original.substring(0, original.indexOf('('));
+                    DatabaseReference myRef = database.getReference();
+                    myRef.child("Users").child(email).child("Chores").child(chore).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            // Increment the star value
+                            stars = (Integer.parseInt(stars) + choreStars) + "";
+                            database.getReference().child("Users").child(email).child(user).child(stars).setValue(stars);
+                            updateStarValue();
+
+                            // Remove the chore from the database
+                            dataSnapshot.getRef().removeValue();
+                            choreList.remove(original);
+                            updateChoreList();
+                            choreSpinner.setSelection(0, true);
+                            error.setText("");
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+            }
+        });
     }
 
     //Display Rewards
@@ -182,6 +222,11 @@ public class childView extends AppCompatActivity {
             }
 
         });
+    }
+
+    public void updateStarValue() {
+        TextView starView = findViewById(R.id.totalStars);
+        starView.setText(stars);
     }
 
     //Updates visual of dropdown for chores
