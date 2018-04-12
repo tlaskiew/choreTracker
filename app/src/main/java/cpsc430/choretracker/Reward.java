@@ -1,5 +1,6 @@
 package cpsc430.choretracker;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -51,7 +52,7 @@ public class Reward extends AppCompatActivity {
         addToList(rewardList, 1);
         // Set up values for adding reward
         starList.add("Cost of Reward:");
-        for(int i = 10; i <= 500; i+=10){
+        for (int i = 10; i <= 500; i += 10) {
             starList.add(i + "");
         }
         addToList(starList, 2);
@@ -80,6 +81,7 @@ public class Reward extends AppCompatActivity {
                             updateList();
                             dropdown.setSelection(0, true);
                         }
+
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
                             //Catch any errors
@@ -91,7 +93,7 @@ public class Reward extends AppCompatActivity {
 
     }
 
-    public void updateList(){
+    public void updateList() {
         myRef.child("Users").child(email).child("Rewards").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -99,19 +101,20 @@ public class Reward extends AppCompatActivity {
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                     String name = dsp.child("rewardName").getValue().toString();
                     // Avoiding error with firebase caused by '$'
-                    if(name.contains("Cash: ")){
+                    if (name.contains("Cash: ")) {
                         name = name.replace("Cash: ", "$");
                     }
                     String value = dsp.child("rewardValue").getValue().toString();
 
                     // Making sure no duplicates
-                    if(!rewardList.contains(name + "(" + value + ")")) {
+                    if (!rewardList.contains(name + "(" + value + ")")) {
                         // Adding and Displaying list to user
                         rewardList.add(name + "(" + value + ")");
                         addToList(rewardList, 1);
                     }
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -130,7 +133,7 @@ public class Reward extends AppCompatActivity {
         TextView error = findViewById(R.id.choreError);
 
         // Catching symbol '$' that isn't allowed by firebase rules
-        if(rewardName.contains("$")){
+        if (rewardName.contains("$")) {
             rewardName = rewardName.replace("$", "Cash: ");
         }
 
@@ -141,11 +144,11 @@ public class Reward extends AppCompatActivity {
         String rewardValue = rewardValueSpinner.getSelectedItem().toString();
 
         // Check user input
-        if(rewardName.equals("")) {
+        if (rewardName.equals("")) {
             // Reward name was left blank
             error.setText("Type a Reward!");
 
-        } else if(rewardValue.equals("Cost of Reward:")) {
+        } else if (rewardValue.equals("Cost of Reward:")) {
             // Reward value was left blank
             error.setText("Choose a Reward Value!");
         } else {
@@ -166,11 +169,11 @@ public class Reward extends AppCompatActivity {
     }
 
     // Updates visual of dropdown
-    public void addToList(List L, int choice){
+    public void addToList(List L, int choice) {
         Spinner dropdown;
-        if(choice == 1){
+        if (choice == 1) {
             dropdown = findViewById(R.id.spinnerRewardValue);
-        }else{
+        } else {
             dropdown = findViewById(R.id.spinnerRewardValue);
         }
 
@@ -180,10 +183,16 @@ public class Reward extends AppCompatActivity {
     }
 
     // Search for already logged in user
-    public void getLocal(){
+    public void getLocal() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         user = preferences.getString("Username", "");
         email = preferences.getString("Email", "").replace(".", ",");
         role = preferences.getString("Role", "");
+    }
+
+    //Go-to chores page
+    public void chores(View v) {
+        Intent intent = new Intent(this, parentView.class);
+        startActivity(intent);
     }
 }
