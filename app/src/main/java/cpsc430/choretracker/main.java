@@ -1,5 +1,6 @@
 package cpsc430.choretracker;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,9 +38,11 @@ public class main extends AppCompatActivity {
         //User logged in currently is a parent
         if(!user.equals("") && !email.equals("") && !role.equals("") && role.equals("Parent")){
             loggedIn();
+            notification(this.getWindow().getDecorView(),"Welcome back " + user + "!");
         //User logged in currently a child
         }else if(!user.equals("") && !email.equals("") && !role.equals("") && role.equals("Child")){
             loggedIn();
+            notification(this.getWindow().getDecorView(),"Welcome back " + user + "!");
         }
     }
 
@@ -81,6 +85,7 @@ public class main extends AppCompatActivity {
         createAcc.setVisibility(View.VISIBLE);
         TextView accountName = findViewById(R.id.accountName);
         accountName.setVisibility(View.INVISIBLE);
+        notification(this.getWindow().getDecorView(),"You have been logged out!");
     }
 
     //Logged in, hide unneeded items
@@ -206,5 +211,14 @@ public class main extends AppCompatActivity {
         user = preferences.getString("Username", "");
         email = preferences.getString("Email", "").replace(".", ",");
         role = preferences.getString("Role", "");
+    }
+
+    public static void notification(View v, String message){
+        Context context = v.getContext();
+        CharSequence text = message;
+        int duration = Toast.LENGTH_LONG;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 }

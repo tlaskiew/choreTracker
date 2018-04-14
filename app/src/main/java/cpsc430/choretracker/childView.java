@@ -2,7 +2,6 @@ package cpsc430.choretracker;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -107,6 +106,7 @@ public class childView extends AppCompatActivity {
                             database.getReference().child("Users").child(email).child(user).child("Stars").setValue(stars);
                             TextView error = findViewById(R.id.error);
                             error.setText("");
+                            main.notification(v, original + " has been redeemed!");
                         }
 
                         @Override
@@ -155,6 +155,7 @@ public class childView extends AppCompatActivity {
                             updateChoreList();
                             choreSpinner.setSelection(0, true);
                             error.setText("");
+                            main.notification(v, original + " has been claimed!");
                         }
 
                         @Override

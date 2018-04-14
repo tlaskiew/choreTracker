@@ -37,7 +37,7 @@ public class Reward extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reward);
 
-        final Spinner dropdown = findViewById(R.id.spinnerRewardValue);
+        final Spinner dropdown = findViewById(R.id.spinnerRewardList);
 
         // Gather Session data
         getLocal();
@@ -63,16 +63,21 @@ public class Reward extends AppCompatActivity {
             public void onClick(final View v) {
                 String temp = dropdown.getSelectedItem().toString();
                 final String original = temp;
+                int value = 0;
                 //Remove contents of ( ) to enable easier database searching
-                int startIndex = temp.indexOf("(");
-                int endIndex = temp.indexOf(")");
-                String rewardValue = "(" + temp.substring(startIndex + 1, endIndex) + ")";
-                temp = temp.replace(rewardValue, "");
-                temp = temp.replace("$", "Cash: ");
+                if(temp.contains("(") || temp.contains(")")) {
+                    int startIndex = temp.indexOf("(");
+                    int endIndex = temp.indexOf(")");
+                    String rewardValue = "(" + temp.substring(startIndex + 1, endIndex) + ")";
+                    value = Integer.parseInt(temp.substring(startIndex + 1, endIndex));
+                    temp = temp.replace(rewardValue, "");
+                } else if(temp.contains("$")) {
+                    temp = temp.replace("$", "Cash: ");
+                }
 
                 // Don't remove the title
                 if (!original.equals("Current Rewards:")) {
-                    myRef.child("Users").child(email).child("Rewards").child(temp).addValueEventListener(new ValueEventListener() {
+                    myRef.child("Users").child(email).child("Rewards").child(temp).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             // Get the reference of the reward and the delete it and update the list
@@ -80,6 +85,7 @@ public class Reward extends AppCompatActivity {
                             rewardList.remove(original);
                             updateList();
                             dropdown.setSelection(0, true);
+                            main.notification(v, original + " has been removed!");
                         }
 
                         @Override
@@ -124,7 +130,7 @@ public class Reward extends AppCompatActivity {
     }
 
     // Add a reward
-    public void addReward(View v) {
+    public void addReward(final View v) {
         // Collect user data
         EditText input = findViewById(R.id.textReward);
         String rewardName = input.getText().toString();
@@ -153,7 +159,7 @@ public class Reward extends AppCompatActivity {
             error.setText("Choose a Reward Value!");
         } else {
             // All required input was given
-
+            main.notification(v, rewardName + " has been added!");
             //Adding all data to database and updating the current list onscreen
             Map<String, String> userData = new HashMap<>();
             userData.put("rewardName", rewardName);
@@ -172,7 +178,7 @@ public class Reward extends AppCompatActivity {
     public void addToList(List L, int choice) {
         Spinner dropdown;
         if (choice == 1) {
-            dropdown = findViewById(R.id.spinnerRewardValue);
+            dropdown = findViewById(R.id.spinnerRewardList);
         } else {
             dropdown = findViewById(R.id.spinnerRewardValue);
         }

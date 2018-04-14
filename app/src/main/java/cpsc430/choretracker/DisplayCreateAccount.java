@@ -112,7 +112,7 @@ public class DisplayCreateAccount extends AppCompatActivity {
                                 //Add data to database
                                 dataSnapshot.getRef().child(user).setValue(userData);
 
-                                TextView error = findViewById(R.id.createError);
+
                                 if(chosenRole.equals("Parent")){
                                     //Go-To Parent View
                                     Intent intent = new Intent(v.getContext(), parentView.class);

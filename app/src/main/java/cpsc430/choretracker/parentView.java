@@ -106,12 +106,12 @@ public class parentView extends AppCompatActivity {
             input.setText("");
             starValueSpinner.setSelection(0, true);
             error.setText("");
-
+            main.notification(v, choreName + " has been added!");
         }
     }
 
     // Remove a chore from the database
-    public void removeChore(View v) {
+    public void removeChore(final View v) {
         // Get the selected chore from UI
         final Spinner selectChoreSpinner = findViewById(R.id.choreList);
         String choreName = selectChoreSpinner.getSelectedItem().toString();
@@ -125,7 +125,7 @@ public class parentView extends AppCompatActivity {
         } else {
             choreName = choreName.substring(0, choreName.indexOf('('));
             DatabaseReference myRef = database.getReference();
-            myRef.child("Users").child(email).child("Chores").child(choreName).addValueEventListener(new ValueEventListener() {
+            myRef.child("Users").child(email).child("Chores").child(choreName).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     dataSnapshot.getRef().removeValue();
@@ -133,6 +133,7 @@ public class parentView extends AppCompatActivity {
                     updateList();
                     selectChoreSpinner.setSelection(0, true);
                     error.setText("");
+                    main.notification(v, original + " has been removed!");
                 }
 
                 @Override
@@ -175,6 +176,4 @@ public class parentView extends AppCompatActivity {
         Intent intent = new Intent(this, Reward.class);
         startActivity(intent);
     }
-
-
 }
