@@ -212,7 +212,7 @@ public class Reward extends AppCompatActivity {
                     String reward = dsp.child("reward").getValue().toString();
 
                     if(reward.contains("Cash: ")) {
-                        reward.replace("Cash: ", "$");
+                        reward = reward.replace("Cash: ", "$");
                     }
 
                     redeemedList.add(name + " - " + reward);
@@ -255,7 +255,7 @@ public class Reward extends AppCompatActivity {
         } else {
             String reward = selectedItem.substring(selectedItem.indexOf('-') + 2);
             if(reward.contains("$")) {
-                reward.replace("$", "Cash: ");
+                reward = reward.replace("$", "Cash: ");
             }
             myRef.child(reward).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

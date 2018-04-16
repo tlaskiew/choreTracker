@@ -16,6 +16,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,7 +89,8 @@ public class childView extends AppCompatActivity {
                     String rewardValue = "(" + temp.substring(startIndex + 1, endIndex) + ")";
                     value = Integer.parseInt(temp.substring(startIndex + 1, endIndex));
                     temp = temp.replace(rewardValue, "");
-                } else if(temp.contains("$")) {
+                }
+                if(temp.contains("$")) {
                     temp = temp.replace("$", "Cash: ");
                 }
 
@@ -113,14 +116,13 @@ public class childView extends AppCompatActivity {
 
                             // Add the redemption to the database
                             DatabaseReference myRef = database.getReference().child("Users").child(email).child("redeemedRewards");
-                            if(finalTemp.contains("$")) {
-                                finalTemp.replace("$", "Cash: ");
-                            }
+
                             Map<String, String> data = new HashMap<>();
                             data.put("userName", user);
                             data.put("reward", finalTemp);
 
                             myRef.child(finalTemp).setValue(data);
+
                         }
 
                         @Override
