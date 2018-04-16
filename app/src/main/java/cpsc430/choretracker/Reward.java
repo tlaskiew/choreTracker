@@ -26,6 +26,7 @@ import java.util.Map;
 public class Reward extends AppCompatActivity {
     private List<String> rewardList = new ArrayList<>();
     private List<String> starList = new ArrayList<>();
+    private List<String> redeemedList = new ArrayList<>();
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = database.getReference();
     private String user;
@@ -38,6 +39,8 @@ public class Reward extends AppCompatActivity {
         setContentView(R.layout.activity_reward);
 
         final Spinner dropdown = findViewById(R.id.spinnerRewardList);
+
+        final TextView error = findViewById(R.id.rewardError);
 
         // Gather Session data
         getLocal();
@@ -86,6 +89,7 @@ public class Reward extends AppCompatActivity {
                             updateList();
                             dropdown.setSelection(0, true);
                             main.notification(v, original + " has been removed!");
+                            error.setText("");
                         }
 
                         @Override
@@ -93,10 +97,14 @@ public class Reward extends AppCompatActivity {
                             //Catch any errors
                         }
                     });
+                } else {
+                    error.setText("Please select a reward.");
                 }
             }
         });
 
+
+        updateRedeemedRewards();
     }
 
     public void updateList() {
@@ -135,8 +143,7 @@ public class Reward extends AppCompatActivity {
         EditText input = findViewById(R.id.textReward);
         String rewardName = input.getText().toString();
 
-        //
-        TextView error = findViewById(R.id.choreError);
+        TextView error = findViewById(R.id.rewardError);
 
         // Catching symbol '$' that isn't allowed by firebase rules
         if (rewardName.contains("$")) {
@@ -169,6 +176,7 @@ public class Reward extends AppCompatActivity {
 
             // Cleaning up used boxes and dropdown
             input.setText("");
+            error.setText("");
             rewardValueSpinner.setSelection(0, true);
             rewardValueSpinner.setSelection(0, true);
         }
@@ -188,6 +196,40 @@ public class Reward extends AppCompatActivity {
         dropdown.setAdapter(dataAdapter);
     }
 
+    // Fill the redeemed rewards spinner from the database
+    public void updateRedeemedRewards() {
+        DatabaseReference myRef = database.getReference().child("Users").child(email).child("redeemedRewards");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Spinner redeemedSpinner = findViewById(R.id.redeemedSpinner);
+                if(redeemedList.isEmpty()) {
+                    redeemedList.add("Redeemed Rewards:");
+                }
+
+                for(DataSnapshot dsp : dataSnapshot.getChildren()) {
+                    String name = dsp.child("userName").getValue().toString();
+                    String reward = dsp.child("reward").getValue().toString();
+
+                    if(reward.contains("Cash: ")) {
+                        reward.replace("Cash: ", "$");
+                    }
+
+                    redeemedList.add(name + " - " + reward);
+                }
+
+                ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, redeemedList);
+                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                redeemedSpinner.setAdapter(dataAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Error
+            }
+        });
+    }
+
     // Search for already logged in user
     public void getLocal() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -200,5 +242,38 @@ public class Reward extends AppCompatActivity {
     public void chores(View v) {
         Intent intent = new Intent(this, parentView.class);
         startActivity(intent);
+    }
+
+    public void removeRedeemedChore(View v) {
+        DatabaseReference myRef = database.getReference().child("Users").child(email).child("redeemedRewards");
+        final TextView error = findViewById(R.id.rewardError);
+        Spinner redeemedRewardsSpinner = findViewById(R.id.redeemedSpinner);
+
+        final String selectedItem = redeemedRewardsSpinner.getSelectedItem().toString();
+        if(selectedItem.equals("Redeemed Rewards:")) {
+            error.setText("Please select a redeemed reward.");
+        } else {
+            String reward = selectedItem.substring(selectedItem.indexOf('-') + 2);
+            if(reward.contains("$")) {
+                reward.replace("$", "Cash: ");
+            }
+            myRef.child(reward).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // Remove the redeemed reward from the database
+                    dataSnapshot.getRef().removeValue();
+                    redeemedList.remove(selectedItem);
+
+                    // Update the UI
+                    updateRedeemedRewards();
+                    error.setText("");
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 }

@@ -81,7 +81,7 @@ public class parentView extends AppCompatActivity {
         Spinner starValueSpinner = findViewById(R.id.spinnerStarValue);
         String starValue = starValueSpinner.getSelectedItem().toString();
 
-        TextView error = findViewById(R.id.choreError);
+        TextView error = findViewById(R.id.rewardError);
 
         // Check user input
         if(choreName.equals("")) {
@@ -117,7 +117,7 @@ public class parentView extends AppCompatActivity {
         String choreName = selectChoreSpinner.getSelectedItem().toString();
         final String original = choreName;
 
-        final TextView error = findViewById(R.id.choreError);
+        final TextView error = findViewById(R.id.rewardError);
 
         if(choreName.equals("Current Chores:")) {
             // No chore was selected

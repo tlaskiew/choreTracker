@@ -17,7 +17,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class childView extends AppCompatActivity {
     private List<String> choreList = new ArrayList<>();
@@ -93,6 +95,7 @@ public class childView extends AppCompatActivity {
 
                 //Check to make sure child has enough stars and that its not on the title
                 if(!original.equals("Current Rewards:") && val <= Integer.parseInt(stars)) {
+                    final String finalTemp = temp;
                     database.getReference().child("Users").child(email).child("Rewards").child(temp).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -107,6 +110,17 @@ public class childView extends AppCompatActivity {
                             TextView error = findViewById(R.id.error);
                             error.setText("");
                             main.notification(v, original + " has been redeemed!");
+
+                            // Add the redemption to the database
+                            DatabaseReference myRef = database.getReference().child("Users").child(email).child("redeemedRewards");
+                            if(finalTemp.contains("$")) {
+                                finalTemp.replace("$", "Cash: ");
+                            }
+                            Map<String, String> data = new HashMap<>();
+                            data.put("userName", user);
+                            data.put("reward", finalTemp);
+
+                            myRef.child(finalTemp).setValue(data);
                         }
 
                         @Override
