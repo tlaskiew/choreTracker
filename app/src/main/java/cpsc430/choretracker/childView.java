@@ -90,9 +90,8 @@ public class childView extends AppCompatActivity {
                     value = Integer.parseInt(temp.substring(startIndex + 1, endIndex));
                     temp = temp.replace(rewardValue, "");
                 }
-                if(temp.contains("$")) {
-                    temp = temp.replace("$", "Cash: ");
-                }
+
+                temp = encodeQuery(temp);
 
                 final int val = value;
 
@@ -156,6 +155,7 @@ public class childView extends AppCompatActivity {
                 } else {
                     final int choreStars = Integer.parseInt(original.substring(original.indexOf('(') + 1, original.indexOf(')')));
                     String chore = original.substring(0, original.indexOf('('));
+                    chore = encodeQuery(chore);
                     DatabaseReference myRef = database.getReference();
                     myRef.child("Users").child(email).child("Chores").child(chore).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -193,10 +193,8 @@ public class childView extends AppCompatActivity {
                 // Loop through rewards in database and display current rewards
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                     String name = dsp.child("rewardName").getValue().toString();
-                    // Avoiding error with firebase caused by '$'
-                    if(name.contains("Cash: ")){
-                        name = name.replace("Cash: ", "$");
-                    }
+                    name = decodeQuery(name);
+
                     String value = dsp.child("rewardValue").getValue().toString();
 
                     // Making sure no duplicates
@@ -224,6 +222,7 @@ public class childView extends AppCompatActivity {
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                     String name = dsp.child("choreName").getValue().toString();
                     String value = dsp.child("starValue").getValue().toString();
+                    name = decodeQuery(name);
 
                     // Making sure no duplicates
                     if(!choreList.contains(name + "(" + value + ")")) {
@@ -260,4 +259,43 @@ public class childView extends AppCompatActivity {
         dropdown.setAdapter(dataAdapter);
     }
 
+    private String encodeQuery(String s) {
+        while(s.contains(".")) {
+            s = s.replace(".", "DOT");
+        }
+        while(s.contains("$")) {
+            s = s.replace("$", "DOLLAR");
+        }
+        while(s.contains("[")) {
+            s = s.replace("[", "LBRACKET");
+        }
+        while(s.contains("]")) {
+            s = s.replace("]", "RBRACKET");
+        }
+        while(s.contains("#")) {
+            s = s.replace("#", "POUND");
+        }
+
+        return s;
+    }
+
+    private String decodeQuery(String s) {
+        while(s.contains("DOT")) {
+            s = s.replace("DOT", ".");
+        }
+        while(s.contains("DOLLAR")) {
+            s = s.replace("DOLLAR", "$");
+        }
+        while(s.contains("LBRACKET")) {
+            s = s.replace("LBRACKET", "[");
+        }
+        while(s.contains("RBRACKET")) {
+            s = s.replace("RBRACKET", "]");
+        }
+        while(s.contains("POUND")) {
+            s = s.replace("POUND", "#");
+        }
+
+        return s;
+    }
 }

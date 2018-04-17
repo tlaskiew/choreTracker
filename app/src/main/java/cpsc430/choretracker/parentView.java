@@ -92,6 +92,7 @@ public class parentView extends AppCompatActivity {
             error.setText("Please select a star value.");
         } else {
             // All required input is given
+            choreName = encodeQuery(choreName);
 
             // Add the chore to the database
             Map<String, String> userData = new HashMap<>();
@@ -106,7 +107,7 @@ public class parentView extends AppCompatActivity {
             input.setText("");
             starValueSpinner.setSelection(0, true);
             error.setText("");
-            main.notification(v, choreName + " has been added!");
+            main.notification(v, decodeQuery(choreName) + " has been added!");
         }
     }
 
@@ -124,6 +125,7 @@ public class parentView extends AppCompatActivity {
             error.setText("Please select a chore");
         } else {
             choreName = choreName.substring(0, choreName.indexOf('('));
+            choreName = encodeQuery(choreName);
             DatabaseReference myRef = database.getReference();
             myRef.child("Users").child(email).child("Chores").child(choreName).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -155,6 +157,8 @@ public class parentView extends AppCompatActivity {
                     String name = dsp.child("choreName").getValue().toString();
                     String value = dsp.child("starValue").getValue().toString();
 
+                    name = decodeQuery(name);
+
                     // Making sure no duplicates
                     if(!choreList.contains(name + "(" + value + ")")) {
                         // Adding and Displaying list to user
@@ -175,5 +179,45 @@ public class parentView extends AppCompatActivity {
     public void rewards(View v){
         Intent intent = new Intent(this, Reward.class);
         startActivity(intent);
+    }
+
+    private String encodeQuery(String s) {
+        while(s.contains(".")) {
+            s = s.replace(".", "DOT");
+        }
+        while(s.contains("$")) {
+            s = s.replace("$", "DOLLAR");
+        }
+        while(s.contains("[")) {
+            s = s.replace("[", "LBRACKET");
+        }
+        while(s.contains("]")) {
+            s = s.replace("]", "RBRACKET");
+        }
+        while(s.contains("#")) {
+            s = s.replace("#", "POUND");
+        }
+
+        return s;
+    }
+
+    private String decodeQuery(String s) {
+        while(s.contains("DOT")) {
+            s = s.replace("DOT", ".");
+        }
+        while(s.contains("DOLLAR")) {
+            s = s.replace("DOLLAR", "$");
+        }
+        while(s.contains("LBRACKET")) {
+            s = s.replace("LBRACKET", "[");
+        }
+        while(s.contains("RBRACKET")) {
+            s = s.replace("RBRACKET", "]");
+        }
+        while(s.contains("POUND")) {
+            s = s.replace("POUND", "#");
+        }
+
+        return s;
     }
 }

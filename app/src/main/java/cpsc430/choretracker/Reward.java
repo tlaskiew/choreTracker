@@ -74,9 +74,9 @@ public class Reward extends AppCompatActivity {
                     String rewardValue = "(" + temp.substring(startIndex + 1, endIndex) + ")";
                     value = Integer.parseInt(temp.substring(startIndex + 1, endIndex));
                     temp = temp.replace(rewardValue, "");
-                } else if(temp.contains("$")) {
-                    temp = temp.replace("$", "Cash: ");
                 }
+
+                temp = encodeQuery(temp);
 
                 // Don't remove the title
                 if (!original.equals("Current Rewards:")) {
@@ -114,10 +114,9 @@ public class Reward extends AppCompatActivity {
                 // Loop through rewards in database and display current rewards
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                     String name = dsp.child("rewardName").getValue().toString();
-                    // Avoiding error with firebase caused by '$'
-                    if (name.contains("Cash: ")) {
-                        name = name.replace("Cash: ", "$");
-                    }
+
+                    name = decodeQuery(name);
+
                     String value = dsp.child("rewardValue").getValue().toString();
 
                     // Making sure no duplicates
@@ -145,13 +144,9 @@ public class Reward extends AppCompatActivity {
 
         TextView error = findViewById(R.id.rewardError);
 
-        // Catching symbol '$' that isn't allowed by firebase rules
-        if (rewardName.contains("$")) {
-            rewardName = rewardName.replace("$", "Cash: ");
-        }
+        rewardName = encodeQuery(rewardName);
 
         // Database ref: Where to put the data
-        myRef = database.getReference().child("Users").child(email).child("Rewards").child(rewardName);
 
         Spinner rewardValueSpinner = findViewById(R.id.spinnerRewardValue);
         String rewardValue = rewardValueSpinner.getSelectedItem().toString();
@@ -166,7 +161,8 @@ public class Reward extends AppCompatActivity {
             error.setText("Choose a Reward Value!");
         } else {
             // All required input was given
-            main.notification(v, rewardName + " has been added!");
+            myRef = database.getReference().child("Users").child(email).child("Rewards").child(rewardName);
+            main.notification(v, decodeQuery(rewardName) + " has been added!");
             //Adding all data to database and updating the current list onscreen
             Map<String, String> userData = new HashMap<>();
             userData.put("rewardName", rewardName);
@@ -198,6 +194,7 @@ public class Reward extends AppCompatActivity {
 
     // Fill the redeemed rewards spinner from the database
     public void updateRedeemedRewards() {
+        redeemedList.clear();
         DatabaseReference myRef = database.getReference().child("Users").child(email).child("redeemedRewards");
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -211,9 +208,7 @@ public class Reward extends AppCompatActivity {
                     String name = dsp.child("userName").getValue().toString();
                     String reward = dsp.child("reward").getValue().toString();
 
-                    if(reward.contains("Cash: ")) {
-                        reward = reward.replace("Cash: ", "$");
-                    }
+                    reward = decodeQuery(reward);
 
                     redeemedList.add(name + " - " + reward);
                 }
@@ -254,9 +249,8 @@ public class Reward extends AppCompatActivity {
             error.setText("Please select a redeemed reward.");
         } else {
             String reward = selectedItem.substring(selectedItem.indexOf('-') + 2);
-            if(reward.contains("$")) {
-                reward = reward.replace("$", "Cash: ");
-            }
+            reward = encodeQuery(reward);
+
             myRef.child(reward).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -275,5 +269,45 @@ public class Reward extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private String encodeQuery(String s) {
+        while(s.contains(".")) {
+            s = s.replace(".", "DOT");
+        }
+        while(s.contains("$")) {
+            s = s.replace("$", "DOLLAR");
+        }
+        while(s.contains("[")) {
+            s = s.replace("[", "LBRACKET");
+        }
+        while(s.contains("]")) {
+            s = s.replace("]", "RBRACKET");
+        }
+        while(s.contains("#")) {
+            s = s.replace("#", "POUND");
+        }
+
+        return s;
+    }
+
+    private String decodeQuery(String s) {
+        while(s.contains("DOT")) {
+            s = s.replace("DOT", ".");
+        }
+        while(s.contains("DOLLAR")) {
+            s = s.replace("DOLLAR", "$");
+        }
+        while(s.contains("LBRACKET")) {
+            s = s.replace("LBRACKET", "[");
+        }
+        while(s.contains("RBRACKET")) {
+            s = s.replace("RBRACKET", "]");
+        }
+        while(s.contains("POUND")) {
+            s = s.replace("POUND", "#");
+        }
+
+        return s;
     }
 }
