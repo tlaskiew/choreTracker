@@ -1,5 +1,6 @@
 package cpsc430.choretracker;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -257,6 +258,11 @@ public class childView extends AppCompatActivity {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, L);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dropdown.setAdapter(dataAdapter);
+    }
+
+    public void logout(View v){
+        Intent intent = new Intent(this, main.class);
+        startActivity(intent);
     }
 
     private String encodeQuery(String s) {

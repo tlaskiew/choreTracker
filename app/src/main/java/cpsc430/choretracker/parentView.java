@@ -146,6 +146,11 @@ public class parentView extends AppCompatActivity {
         }
     }
 
+    public void logout(View v){
+        Intent intent = new Intent(this, main.class);
+        startActivity(intent);
+    }
+
     public void updateList(){
         DatabaseReference myRef = database.getReference().child("Users").child(email).child("Chores");
 
