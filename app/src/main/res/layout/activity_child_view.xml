@@ -137,8 +137,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonRedeemReward" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonRedeemReward"
+        app:layout_constraintVertical_bias="0.014" />
 
     <Button
         android:id="@+id/logout"
@@ -154,7 +156,8 @@
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonRedeemReward"
+        app:layout_constraintTop_toBottomOf="@+id/error"
         tools:textColor="@android:color/background_light" />
 </android.support.constraint.ConstraintLayout>
