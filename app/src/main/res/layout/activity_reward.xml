@@ -31,9 +31,9 @@
         android:layout_height="35dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.052"
+        app:layout_constraintHorizontal_bias="0.079"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textReward" />
 
@@ -43,12 +43,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Type a Reward..."
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.052"
+        app:layout_constraintHorizontal_bias="0.079"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rewardTitle" />
 
@@ -57,7 +57,7 @@
         android:layout_width="117dp"
         android:layout_height="52dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="4dp"
         android:backgroundTint="@color/ic_launcher_background"
         android:onClick="addReward"
         android:text="Add Reward"
@@ -65,7 +65,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/spinnerRewardValue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textReward"
-        app:layout_constraintVertical_bias="0.641" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Spinner
         android:id="@+id/spinnerRewardList"
@@ -73,8 +73,9 @@
         android:layout_height="35dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.652"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rewardError" />
 
@@ -82,17 +83,16 @@
         android:id="@+id/buttonRemoveReward"
         android:layout_width="181dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:backgroundTint="@android:color/holo_red_dark"
-        android:onClick="deleteReward"
-        android:text="Remove Current Reward"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@android:color/holo_orange_dark"
+        android:text="Remove Reward"
         android:textColor="@android:color/background_light"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.957"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerRewardList" />
 
     <TextView
         android:id="@+id/rewardError"
@@ -100,11 +100,11 @@
         android:layout_height="26dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:textColor="@android:color/holo_red_dark"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.061"
+        app:layout_constraintHorizontal_bias="0.117"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerRewardValue" />
 
@@ -141,26 +141,45 @@
 
     <Spinner
         android:id="@+id/redeemedSpinner"
-        android:layout_width="217dp"
+        android:layout_width="345dp"
         android:layout_height="35dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerRewardList" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonRemoveReward" />
 
     <Button
         android:id="@+id/removeRedeemedReward"
-        android:layout_width="117dp"
+        android:layout_width="181dp"
         android:layout_height="52dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="52dp"
-        android:backgroundTint="@color/ic_launcher_background"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@android:color/holo_orange_dark"
         android:onClick="removeRedeemedChore"
-        android:text="Remove"
+        android:text="Remove Redemption"
+        android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
-        app:layout_constraintStart_toEndOf="@+id/redeemedSpinner"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerRewardList" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/redeemedSpinner" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="181dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:onClick="logout"
+        android:text="Logout"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/chorePageButton" />
 
 </android.support.constraint.ConstraintLayout>

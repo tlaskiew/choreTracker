@@ -84,17 +84,20 @@
         android:id="@+id/removeChore"
         android:layout_width="181dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="136dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:backgroundTint="@android:color/holo_red_dark"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@android:color/holo_orange_dark"
         android:onClick="removeChore"
         android:text="Remove Current Chore"
         android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/choreList"
+        app:layout_constraintVertical_bias="0.812" />
 
     <Spinner
         android:id="@+id/choreList"
@@ -114,7 +117,6 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:backgroundTint="@color/ic_launcher_background"
         android:onClick="rewards"
         android:text="Reward Page"
@@ -122,9 +124,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/removeChore"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/accountName"
@@ -143,13 +143,18 @@
 
     <Button
         android:id="@+id/logout"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="44dp"
-        android:layout_marginTop="16dp"
-        android:text="Logout"
+        android:layout_width="181dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@android:color/holo_red_dark"
         android:onClick="logout"
+        android:text="Logout"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/button8" />
 
 </android.support.constraint.ConstraintLayout>

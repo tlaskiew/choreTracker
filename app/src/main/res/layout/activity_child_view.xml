@@ -76,7 +76,7 @@
         android:layout_height="35dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
@@ -87,9 +87,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/ic_launcher_background"
-        android:onClick="claimChore"
         android:text="Claim Current Chore"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -101,7 +100,7 @@
         android:id="@+id/buttonRedeemReward"
         android:layout_width="195dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="156dp"
+        android:layout_marginBottom="188dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:backgroundTint="@android:color/holo_orange_dark"
@@ -109,7 +108,7 @@
         android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
@@ -124,7 +123,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonClaimChore"
-        app:layout_constraintVertical_bias="0.882" />
+        app:layout_constraintVertical_bias="0.846" />
 
     <TextView
         android:id="@+id/error"
@@ -143,12 +142,19 @@
 
     <Button
         android:id="@+id/logout"
-        android:layout_width="0dp"
+        android:layout_width="195dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="44dp"
-        android:layout_marginTop="16dp"
-        android:text="Logout"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@android:color/holo_red_dark"
         android:onClick="logout"
+        android:text="Logout"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRedeemReward"
+        tools:textColor="@android:color/background_light" />
 </android.support.constraint.ConstraintLayout>

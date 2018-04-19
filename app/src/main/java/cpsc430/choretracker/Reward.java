@@ -271,6 +271,11 @@ public class Reward extends AppCompatActivity {
         }
     }
 
+    public void logout(View v){
+        Intent intent = new Intent(this, main.class);
+        startActivity(intent);
+    }
+
     private String encodeQuery(String s) {
         while(s.contains(".")) {
             s = s.replace(".", "DOT");
