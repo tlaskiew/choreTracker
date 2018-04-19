@@ -40,7 +40,7 @@ public class Reward extends AppCompatActivity {
 
         final Spinner dropdown = findViewById(R.id.spinnerRewardList);
 
-        final TextView error = findViewById(R.id.rewardError);
+        final TextView error = findViewById(R.id.removeRewardError);
 
         // Gather Session data
         getLocal();
@@ -142,7 +142,7 @@ public class Reward extends AppCompatActivity {
         EditText input = findViewById(R.id.textReward);
         String rewardName = input.getText().toString();
 
-        TextView error = findViewById(R.id.rewardError);
+        TextView error = findViewById(R.id.addRewardError);
 
         rewardName = encodeQuery(rewardName);
 
@@ -240,9 +240,9 @@ public class Reward extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void removeRedeemedChore(View v) {
+    public void removeRedeemedReward(View v) {
         DatabaseReference myRef = database.getReference().child("Users").child(email).child("redeemedRewards");
-        final TextView error = findViewById(R.id.rewardError);
+        final TextView error = findViewById(R.id.removeRedemptionError);
         Spinner redeemedRewardsSpinner = findViewById(R.id.redeemedSpinner);
 
         final String selectedItem = redeemedRewardsSpinner.getSelectedItem().toString();
