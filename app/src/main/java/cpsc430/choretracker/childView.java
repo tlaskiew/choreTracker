@@ -137,7 +137,7 @@ public class childView extends AppCompatActivity {
                     if(!original.equals("Current Rewards:")) {
                         error.setText("You Don't Have Enough Stars!");
                     }else{
-                        error.setText("Choose A Reward!");
+                        error.setText("Choose a Reward!");
                     }
                 }
             }

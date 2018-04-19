@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -79,6 +80,7 @@ public class Reward extends AppCompatActivity {
                 temp = encodeQuery(temp);
 
                 // Don't remove the title
+                myRef = database.getReference(); //Reset ref location
                 if (!original.equals("Current Rewards:")) {
                     myRef.child("Users").child(email).child("Rewards").child(temp).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
