@@ -273,6 +273,11 @@ public class Reward extends AppCompatActivity {
     }
 
     public void logout(View v){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
+
         finish();
     }
 
