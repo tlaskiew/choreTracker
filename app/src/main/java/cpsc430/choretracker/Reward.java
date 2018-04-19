@@ -235,6 +235,7 @@ public class Reward extends AppCompatActivity {
 
     //Go-to chores page
     public void chores(View v) {
+        finish();
         Intent intent = new Intent(this, parentView.class);
         startActivity(intent);
     }
@@ -272,8 +273,7 @@ public class Reward extends AppCompatActivity {
     }
 
     public void logout(View v){
-        Intent intent = new Intent(this, main.class);
-        startActivity(intent);
+        finish();
     }
 
     private String encodeQuery(String s) {

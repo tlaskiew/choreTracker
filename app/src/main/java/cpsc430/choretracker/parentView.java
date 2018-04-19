@@ -147,8 +147,7 @@ public class parentView extends AppCompatActivity {
     }
 
     public void logout(View v){
-        Intent intent = new Intent(this, main.class);
-        startActivity(intent);
+        finish();
     }
 
     public void updateList(){
@@ -182,6 +181,7 @@ public class parentView extends AppCompatActivity {
 
     //Go-to rewards page
     public void rewards(View v){
+        finish();
         Intent intent = new Intent(this, Reward.class);
         startActivity(intent);
     }

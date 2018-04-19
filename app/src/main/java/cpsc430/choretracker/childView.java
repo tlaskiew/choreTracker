@@ -261,8 +261,7 @@ public class childView extends AppCompatActivity {
     }
 
     public void logout(View v){
-        Intent intent = new Intent(this, main.class);
-        startActivity(intent);
+        finish();
     }
 
     private String encodeQuery(String s) {
