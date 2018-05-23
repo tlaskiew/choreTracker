@@ -163,7 +163,7 @@ public class childView extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             // Increment the star value
                             stars = (Integer.parseInt(stars) + choreStars) + "";
-                            database.getReference().child("Users").child(email).child(user).child(stars).setValue(stars);
+                            database.getReference().child("Users").child(email).child(user).child("Stars").setValue(stars);
                             updateStarValue();
 
                             // Remove the chore from the database
@@ -261,11 +261,6 @@ public class childView extends AppCompatActivity {
     }
 
     public void logout(View v){
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
-        editor.apply();
-
         finish();
     }
 
